@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مفاجأة صغيرة إلك 🎁</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&family=Aref+Ruqaa:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            background: linear-gradient(-45deg, #f3e7e9, #e3eeff, #e0c3fc, #8ec5fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            touch-action: manipulation;
+            min-height: 100vh;
+            cursor: url('https://cdn-icons-png.flaticon.com/32/2381/2381045.png'), auto;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #bg-effects, #magic-particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #magic-particles-container {
+            z-index: 100;
+        }
+
+        .action-btn {
+            position: relative; 
+            z-index: 50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            white-space: normal; 
+            max-width: 90vw;
+            line-height: 1.4;
+        }
+
+        .character-floating {
+            position: fixed !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            z-index: 45;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .happy-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(240, 248, 255, 0.9)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            animation: none !important;
+        }
+
+        .magic-frame {
+            position: relative;
+            padding: 6px;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            z-index: 20;
+            transform: rotate(-3deg);
+            transition: transform 0.5s ease;
+        }
+        
+        .magic-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #a855f7, #3b82f6, #ec4899);
+            animation: rotateFrame 4s linear infinite;
+            z-index: -1;
+        }
+
+        .magic-frame-inner {
+            background: white;
+            padding: 8px 8px 24px 8px;
+            border-radius: 14px;
+            height: 100%;
+        }
+
+        .magic-frame:hover {
+            transform: rotate(0deg) scale(1.05);
+        }
+
+        @keyframes rotateFrame {
+            100% { transform: rotate(360deg); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1), inset 0 0 30px rgba(255,255,255,0.5);
+            border-radius: 35px;
+        }
+
+        .main-name {
+            background: linear-gradient(to right, #ec4899, #8b5cf6, #3b82f6);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shinyText 4s ease infinite;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.1));
+            font-family: 'Aref Ruqaa', serif;
+        }
+
+        @keyframes shinyText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: scale(0.8) translateY(40px); } 
+            to { opacity: 1; transform: scale(1) translateY(0); } 
+        }
+
+        #countdown-section {
+            background: radial-gradient(circle at center, #1a0b2e 0%, #090212 100%);
+        }
+
+        .energy-orb {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fff, #fbcfe8, #d8b4fe, transparent);
+            box-shadow: 0 0 50px #d8b4fe, 0 0 100px #fbcfe8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: orbPulse 1.5s infinite alternate;
+            position: relative;
+        }
+
+        .energy-orb::after {
+            content: '';
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.5);
+            animation: rotateOrb 10s linear infinite;
+        }
+
+        @keyframes orbPulse {
+            0% { transform: scale(0.95); box-shadow: 0 0 40px #d8b4fe; }
+            100% { transform: scale(1.1); box-shadow: 0 0 90px #fbcfe8, 0 0 140px #e879f9; }
+        }
+
+        @keyframes rotateOrb {
+            100% { transform: rotate(360deg); }
+        }
+
+        .intro-overlay {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(25px);
+            z-index: 100;
+        }
+        
+        .smile-btn {
+            transition: all 0.3s;
+        }
+        .smile-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-120vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .gif-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+    </style>
+</head>
+<body class="w-full relative">
+
+    <audio id="happy-song" loop>
+        <source src="https://i.top4top.io/m_3715lfl773.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="bg-effects"></div>
+
+    <div id="intro-section" class="fixed inset-0 intro-overlay flex flex-col items-center justify-center p-6 text-center">
+        <div class="bg-white/80 p-10 rounded-[3rem] shadow-[0_20px_60px_rgba(0,0,0,0.1)] border border-white/50 max-w-sm w-full relative overflow-hidden transform transition-all hover:scale-105 duration-500">
+            <div class="absolute -top-10 -right-10 w-40 h-40 bg-gradient-to-br from-pink-300 to-purple-300 rounded-full blur-3xl opacity-60"></div>
+            <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-gradient-to-tr from-blue-300 to-cyan-300 rounded-full blur-3xl opacity-60"></div>
+            
+            <div class="text-7xl mb-6 animate-bounce drop-shadow-md">🌸</div>
+            <h1 class="text-3xl font-black text-gray-800 mb-3 font-serif">بوابة الدخول</h1>
+            <p class="text-lg text-gray-600 mb-8 font-bold leading-relaxed px-2">
+                يُمنع مرور أصحاب المزاج المتعكر.<br>
+                لا يُسمح بالدخول إلا بابتسامة حلوة!
+            </p>
+            
+            <button id="prove-smile-btn" class="smile-btn w-full bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-black text-xl py-4 rounded-3xl shadow-xl border-2 border-white/50 flex items-center justify-center gap-3">
+                <span>ابتسمت، افتح الباب!</span> <span class="text-2xl">✨</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="tease-section" class="w-full h-screen relative flex flex-col items-center justify-center mx-auto p-4 hidden">
+        
+        <div id="character-box" class="bg-white/70 backdrop-blur-md p-6 rounded-[2.5rem] shadow-2xl border border-white/80 mb-6 w-full max-w-sm relative flex flex-col items-center justify-center transition-all duration-300">
+            <img id="reaction-gif" src="https://i.pinimg.com/originals/58/99/f6/5899f6e93d8a463fb930a3714ceb7151.gif" class="w-56 h-56 md:w-64 md:h-64 mx-auto mb-4 drop-shadow-2xl gif-pop transition-all duration-300 rounded-3xl" alt="Cute Reaction">
+            
+            <h2 id="teasing-text" class="text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 drop-shadow-sm transition-all text-center leading-snug">أيوة هيك.. خليك مبتسم 🙈</h2>
+        </div>
+        
+        <div id="btn-container" class="relative flex flex-col items-center justify-center z-50">
+            <button id="yes-btn" class="action-btn bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-black py-4 px-10 rounded-[2rem] border-2 border-white/50 text-xl md:text-2xl transition-all text-center">
+                يلا افتح المفاجأة! ✨
+            </button>
+        </div>
+
+    </div>
+
+    <div id="countdown-section" class="hidden fixed inset-0 z-40 flex-col items-center justify-center transition-opacity">
+        
+        <div class="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/stardust.png')] opacity-40"></div>
+        
+        <div class="relative z-10 flex flex-col items-center justify-center h-64">
+            <div id="magic-orb" class="energy-orb">
+                <div id="countdown-number" class="text-7xl font-black text-purple-900 drop-shadow-md scale-100 transition-transform duration-200">1</div>
+            </div>
+        </div>
+
+        <p id="countdown-text" class="relative z-10 text-white mt-12 font-black text-2xl md:text-3xl animate-pulse font-serif text-center drop-shadow-md bg-white/10 backdrop-blur-md px-10 py-4 rounded-[2rem] border border-white/20 shadow-2xl">
+            جاري فتح بوابة السعادة... 🌌
+        </p>
+
+        <button id="final-surprise-btn" class="hidden mt-8 bg-gradient-to-r from-fuchsia-500 to-cyan-500 hover:from-fuchsia-600 hover:to-cyan-600 text-white font-black py-5 px-14 rounded-[2.5rem] border-4 border-white/80 text-3xl shadow-[0_0_50px_rgba(217,70,239,0.8)] animate-bounce transition-all relative z-20">
+            دخول 🪄
+        </button>
+    </div>
+
+    <div id="surprise-section" class="hidden w-full min-h-screen z-20 flex-col items-center justify-center p-4 py-12 mx-auto relative overflow-hidden">
+        
+        <div id="magic-particles-container"></div>
+
+        <div class="glass-panel w-full max-w-md p-6 md:p-8 flex flex-col items-center relative z-20 my-auto">
+            
+            <img src="https://media.tenor.com/Z4XzK27gOAEAAAAi/tkthao219-peach-and-goma.gif" class="absolute -top-16 -left-10 w-36 h-36 z-30 drop-shadow-xl" alt="Cute Bunny">
+            <img src="https://media.tenor.com/W2dmbU3vKx8AAAAi/tkthao219-peach-and-goma.gif" class="absolute bottom-10 -right-10 w-36 h-36 z-30 drop-shadow-xl" alt="Cute Cat">
+
+            <div class="absolute top-4 right-4 text-4xl opacity-80 animate-spin-slow drop-shadow-md">✨</div>
+            <div class="absolute bottom-4 left-4 text-4xl opacity-80 animate-bounce drop-shadow-md">🎈</div>
+
+            <div class="magic-frame w-60 md:w-72 mx-auto mb-10 mt-6">
+                <div class="magic-frame-inner">
+                    <img src="https://b.top4top.io/p_3715rmj7i3.jpeg" 
+                         alt="ابتسم" 
+                         class="w-full h-60 md:h-72 object-cover rounded-lg shadow-inner">
+                    
+                    <div class="text-center mt-4 font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 font-serif text-2xl">
+                        ابتسم، فالحياة تليق بك ✨
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-20 flex flex-col items-center justify-center text-center w-full">
+                <h1 class="main-name text-4xl md:text-5xl font-black mb-6 leading-tight">يا صاحب ألطف ابتسامة..</h1>
+                
+                <div class="text-lg md:text-xl font-medium px-2 pb-6 font-serif line-height-loose text-gray-800">
+                    <p class="mb-4">
+                        بعرف إني جننتك وعذبتك شوي لحد ما قدرت تضغط على الزر.. 😂 بس حبيت أرسم هالضحكة الحلوة على وجهك.
+                    </p>
+                    <p class="mb-4">
+                        حبيت أعملك هالمفاجأة البسيطة بس عشان أذكرك إنك شخص مميز، وإن ابتسامتك لحالها بتسوى الدنيا.
+                    </p>
+                    <p class="mb-4">
+                        أتمنى تضل أيامك كلها ضحك وسعادة، وتبعد عنك كل هم وضيقة، وتوصل لكل شي بتتمناه.
+                    </p>
+                    <p class="mb-6 text-indigo-700 font-black text-2xl drop-shadow-sm">
+                        دائماً تذكر إنك بتستاهل كل شي حلو بهالدنيا.. 🌟
+                    </p>
+                </div>
+
+                <div class="w-full mt-2 pt-10 border-t-[3px] border-dashed border-indigo-200 flex flex-col items-center justify-center relative">
+                    <div class="absolute -top-4 bg-white/70 backdrop-blur-md px-6 py-1.5 rounded-full text-sm font-black text-purple-600 border border-purple-200 shadow-sm">صُنع بكل حُب من</div>
+                    
+                    <h2 class="text-4xl font-black text-indigo-800 font-serif mb-6 drop-shadow-md mt-4">ريهام الكيلاني ✨</h2>
+                    
+                    <div class="magic-frame w-48 mx-auto mt-2 mb-4">
+                        <div class="magic-frame-inner flex flex-col items-center p-2">
+                            <img src="https://l.top4top.io/p_3715lub5c0.png" alt="Instagram QR Code" class="w-40 h-40 object-cover rounded-xl border border-gray-100 shadow-sm">
+                            
+                            <p class="text-sm text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-pink-600 font-black tracking-[0.2em] mt-3 mb-1">
+                                @INSTAGRAM
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+        document.getElementById('prove-smile-btn').addEventListener('click', function() {
+            document.getElementById('intro-section').classList.add('hidden');
+            document.getElementById('tease-section').classList.remove('hidden');
+            document.getElementById('tease-section').classList.add('flex', 'fade-in');
+        });
+
+        function startFallingEffects() {
+            const bg = document.getElementById('bg-effects');
+            setInterval(() => {
+                const el = document.createElement('div');
+                const emojis = ['✨', '🌸', '🎉', '🌟', '🎁', '🎈', '😊', '🪄'];
+                el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.position = 'absolute';
+                el.style.bottom = '-50px';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                el.style.opacity = Math.random() * 0.6 + 0.4;
+                
+                const duration = Math.random() * 5 + 4; 
+                el.style.animation = `floatUp ${duration}s linear forwards`;
+                
+                bg.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, duration * 1000);
+            }, 300); 
+        }
+        
+        startFallingEffects();
+
+        const yesBtn = document.getElementById('yes-btn');
+        const charBox = document.getElementById('character-box');
+        const teaseSection = document.getElementById('tease-section');
+        const surpriseSection = document.getElementById('surprise-section');
+        const happySong = document.getElementById('happy-song');
+        const reactionGif = document.getElementById('reaction-gif');
+        const teasingTextEl = document.getElementById('teasing-text');
+        
+        const interactionSteps = [
+            { screen: "أوبس! فلتت منك 😜", btn: "رح ألحقك! 🏃‍♂️", gif: "https://i.pinimg.com/originals/6a/34/c9/6a34c9d78c8281e09ea8de12a14b3750.gif" },
+            { screen: "طرت بالسما! 🚀", btn: "بجيبك لوين ما رحت! 🌌", gif: "https://i.pinimg.com/originals/a0/4b/23/a04b23dd5219513ca220e87e74be481f.gif" },
+            { screen: "بعدك عم تحاول؟ 😂", btn: "أكيد ما رح أستسلم! 😎", gif: "https://i.pinimg.com/originals/8a/a0/45/8aa045880b88316ed53ec7ef6f3c8bea.gif" },
+            { screen: "عم نلعب غميضة؟ 🙈", btn: "لقطتك! 🕵️‍♂️", gif: "https://i.pinimg.com/originals/12/4a/28/124a28d79e785967c77200d8b266a649.gif" },
+            { screen: "يا سريع روق شوي 😅", btn: "كيف أروق والزر بيهرب؟ 😤", gif: "https://media.tenor.com/1sllEEYLrrAAAAAM/happy-janmashtami.gif" },
+            { screen: "أنا هون! 👀", btn: "جااااي! 🌍", gif: "https://i.pinimg.com/originals/40/97/fd/4097fdebfec65230719cac5bd481ab8b.gif" },
+            { screen: "تعبت؟ خذ نفس 😌", btn: "نفسي طويل! 💪", gif: "https://i.pinimg.com/originals/ee/f6/a4/eef6a46e97fc7428ad471c2e02bdb2da.gif" },
+            { screen: "والله إنك عنيد 😜", btn: "لأبعد حد! 💯", gif: "https://i.pinimg.com/originals/92/e1/6a/92e16a232dd6d27fd19c34362f71fce4.gif" },
+            { screen: "عم العب بأعصابك! ✨", btn: "ورجيني أخرتها! 🎯", gif: "https://i.pinimg.com/originals/96/3b/40/963b403dc8742ae8e76b87f5d874515b.gif" },
+            { screen: "عشان تعرف إني مو سهل 💎", btn: "وأنا قد التحدي! 💥", gif: "https://i.pinimg.com/originals/4f/22/87/4f228760e41f20cb2c55495ae492b37b.gif" },
+            { screen: "طب زعلت؟ بمزح معك 🥺", btn: "ما بزعل منك أبداً 🥰", gif: "https://i.pinimg.com/originals/a1/ec/1b/a1ec1b7328db508e0abd3edc6de66fa9.gif" },
+            { screen: "أثبتلي إنك بدك تكمل 🌟", btn: "مكمل للآخر! 🦸‍♂️", gif: "https://i.pinimg.com/originals/cc/f2/27/ccf227f57d93020c53731a52aa0f1939.gif" },
+            { screen: "دوختني معك.. 🤭", btn: "وأنا دخت وراك! 😵‍💫", gif: "https://i.pinimg.com/originals/31/8b/58/318b58f39975a49526ab4e7678b4a9d7.gif" },
+            { screen: "عنجد لسه بتحاول؟ 😲", btn: "أكييييد! 😡✨", gif: "https://i.pinimg.com/originals/af/1b/e4/af1be4557381e7b869ef2cdfc8c5cdb8.gif" },
+            { screen: "عم تقرب.. دير بالك 🙈", btn: "ما ضل شي وبمسكك! 🕵️‍♂️", gif: "https://i.pinimg.com/originals/2e/6d/6d/2e6d6db2fd789c750a260aee7c9a6791.gif" },
+            { screen: "هانت، قربت كتير 😍", btn: "يلا وقف مكانك! ✨", gif: "https://i.pinimg.com/originals/d3/57/28/d35728f053cf8b5ea303b8c8653b21da.gif" },
+            { screen: "بوعدك هاي قبل الأخيرة 😂", btn: "بنشوف! 😒", gif: "https://i.pinimg.com/originals/e0/5c/65/e05c6573b7c4a07fe0f3a95cd98bf611.gif" },
+            { screen: "يعجبني إصرارك 👏", btn: "خلصني عاد! 🫂", gif: "https://i.pinimg.com/originals/bc/0a/ff/bc0affc97f7ea9649ad19cf29f913901.gif" },
+            { screen: "آخر مرة حاول! 🥺", btn: "يلا هانت! 🎁", gif: "https://i.pinimg.com/originals/54/b7/d6/54b7d6dcdfce894a3ccad4c144f1a9a2.gif" },
+            { screen: "خلص رح أستسلم لأنك بطل 🥰", btn: "أخيراً! مسكتك! 🏆", gif: "https://i.pinimg.com/originals/67/0e/7c/670e7c280f74eb1052acabdd9d052b52.gif" }
+        ];
+
+        let yesMoveCount = 0;
+        const maxYesMoves = 20; 
+
+        function moveElementsWithoutOverlap() {
+            if (yesBtn.style.position !== 'fixed') {
+                yesBtn.style.position = 'fixed';
+                yesBtn.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }
+            if (charBox.style.position !== 'fixed') {
+                charBox.style.position = 'fixed';
+                charBox.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }
+
+            const margin = 20;
+            const padding = 30; 
+
+            const btnW = yesBtn.offsetWidth || 200;
+            const btnH = yesBtn.offsetHeight || 60;
+            const charW = charBox.offsetWidth || 200;
+            const charH = charBox.offsetHeight || 200;
+
+            const maxX1 = window.innerWidth - btnW - margin;
+            const maxY1 = window.innerHeight - btnH - margin;
+            const maxX2 = window.innerWidth - charW - margin;
+            const maxY2 = window.innerHeight - charH - margin;
+
+            let bX, bY, cX, cY, overlap;
+            let attempts = 0;
+
+            do {
+                bX = Math.max(margin, Math.random() * maxX1);
+                bY = Math.max(margin, Math.random() * maxY1);
+                cX = Math.max(margin, Math.random() * maxX2);
+                cY = Math.max(margin, Math.random() * maxY2);
+
+                const r1 = { left: bX - padding, right: bX + btnW + padding, top: bY - padding, bottom: bY + btnH + padding };
+                const r2 = { left: cX, right: cX + charW, top: cY, bottom: cY + charH };
+
+                overlap = !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+                attempts++;
+            } while (overlap && attempts < 100);
+
+            yesBtn.style.left = bX + 'px';
+            yesBtn.style.top = bY + 'px';
+            yesBtn.style.transform = 'none';
+
+            charBox.style.left = cX + 'px';
+            charBox.style.top = cY + 'px';
+            charBox.style.transform = 'none';
+        }
+
+        function moveYesButton(e) {
+            if (yesMoveCount >= maxYesMoves) {
+                yesBtn.removeEventListener('touchstart', moveYesButton);
+                yesBtn.removeEventListener('mouseover', moveYesButton);
+
+                yesBtn.style.position = 'relative'; 
+                yesBtn.style.left = 'auto';
+                yesBtn.style.top = 'auto';
+                
+                charBox.style.position = 'relative'; 
+                charBox.style.left = 'auto';
+                charBox.style.top = 'auto';
+                charBox.classList.remove('character-floating', 'w-auto');
+                charBox.classList.add('bg-white/70', 'backdrop-blur-md', 'p-6', 'rounded-[2.5rem]', 'shadow-2xl', 'border', 'border-white/80', 'w-full', 'max-w-sm');
+                
+                yesBtn.innerHTML = "أخيراً! يلا نشوف المفاجأة 🎉";
+                yesBtn.classList.remove('bg-gradient-to-r', 'from-indigo-500', 'to-purple-500');
+                yesBtn.classList.add('bg-gradient-to-r', 'from-pink-500', 'to-orange-400', 'animate-pulse', 'scale-110', 'shadow-[0_0_40px_rgba(236,72,153,0.8)]');
+                yesBtn.onclick = startCountdownPhase; 
+                
+                teasingTextEl.innerText = "جاهز للمفاجأة؟ 🥰";
+                teasingTextEl.className = "text-3xl md:text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-500 drop-shadow-sm transition-all text-center leading-snug mt-4";
+                
+                reactionGif.className = "w-56 h-56 md:w-64 md:h-64 mx-auto mb-2 drop-shadow-2xl gif-pop transition-all duration-300 rounded-3xl";
+                triggerGifAnimation();
+                return;
+            }
+
+            e.preventDefault();
+            
+            if (yesMoveCount === 0) {
+                charBox.classList.remove('bg-white/70', 'backdrop-blur-md', 'p-6', 'rounded-[2.5rem]', 'shadow-2xl', 'border', 'border-white/80', 'w-full', 'max-w-sm');
+                charBox.classList.add('character-floating', 'w-auto');
+                
+                reactionGif.className = "w-44 h-44 md:w-48 md:h-48 mx-auto mb-2 drop-shadow-2xl gif-pop transition-all duration-300 rounded-2xl";
+                teasingTextEl.className = "text-xl md:text-2xl font-black text-purple-700 drop-shadow-md text-center leading-snug bg-white/95 px-6 py-3 rounded-full shadow-2xl border-2 border-purple-200 mt-2 whitespace-nowrap";
+            }
+
+            moveElementsWithoutOverlap();
+            
+            const currentStep = interactionSteps[yesMoveCount];
+            teasingTextEl.innerText = currentStep.screen; 
+            yesBtn.innerHTML = currentStep.btn;
+
+            if(currentStep.gif) {
+                reactionGif.src = currentStep.gif;
+            }
+            triggerGifAnimation();
+            
+            yesMoveCount++;
+        }
+        
+        function triggerGifAnimation() {
+            reactionGif.classList.remove('gif-pop');
+            void reactionGif.offsetWidth; 
+            reactionGif.classList.add('gif-pop');
+        }
+
+        yesBtn.addEventListener('touchstart', moveYesButton);
+        yesBtn.addEventListener('mouseover', moveYesButton);
+
+        function startCountdownPhase() {
+            teaseSection.classList.add('hidden');
+            document.getElementById('bg-effects').style.display = 'none';
+            
+            const cdSection = document.getElementById('countdown-section');
+            cdSection.classList.remove('hidden');
+            cdSection.classList.add('flex', 'fade-in');
+
+            const numberEl = document.getElementById('countdown-number');
+            const textEl = document.getElementById('countdown-text');
+            const finalBtn = document.getElementById('final-surprise-btn');
+
+            let count = 1;
+            numberEl.innerText = count;
+
+            const interval = setInterval(() => {
+                count++;
+                
+                numberEl.classList.remove('scale-100');
+                numberEl.classList.add('scale-150');
+                setTimeout(() => {
+                    numberEl.classList.remove('scale-150');
+                    numberEl.classList.add('scale-100');
+                }, 200);
+
+                if (count <= 10) {
+                    numberEl.innerText = count;
+                    if(count === 5) textEl.innerText = "عم نجهز الأبعاد السحرية... 🚀";
+                    if(count === 9) textEl.innerText = "البوابة رح تفتح! 😱";
+                } else {
+                    clearInterval(interval);
+                    numberEl.innerHTML = "✨"; 
+                    numberEl.classList.add('animate-pulse', 'text-8xl');
+                    textEl.classList.add('hidden');
+                    finalBtn.classList.remove('hidden');
+                }
+            }, 600); 
+
+            finalBtn.onclick = showFinalSurpriseSection;
+        }
+
+        function showFinalSurpriseSection() {
+            happySong.play().catch(error => {
+                console.log("Audio needs user interaction");
+            });
+
+            const cdSection = document.getElementById('countdown-section');
+            cdSection.classList.add('hidden');
+            cdSection.classList.remove('flex');
+            
+            document.body.classList.add('happy-bg');
+            document.body.style.overflowY = 'auto'; 
+            
+            surpriseSection.classList.remove('hidden');
+            surpriseSection.classList.add('flex', 'fade-in');
+            
+            createMagicParticles();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function createMagicParticles() {
+            const symbols = ['✨', '🌸', '🎉', '🌟', '🎁', '🎈', '😊', '🪄'];
+            const container = document.getElementById('magic-particles-container');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle text-2xl md:text-5xl';
+                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                particle.style.position = 'absolute';
+                particle.style.bottom = '-50px';
+                particle.style.left = Math.random() * 100 + 'vw';
+                
+                const duration = Math.random() * 4 + 4; 
+                particle.style.animation = `floatUp ${duration}s linear forwards`;
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }, 100); 
+        }
+    </script>
+</body>
+</html>
+
+
