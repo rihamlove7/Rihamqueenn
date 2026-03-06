@@ -234,6 +234,56 @@
             40% { transform: scale(1); }
         }
 
+        /* التصميم الاحترافي لعداد الزوار */
+        .premium-counter {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            font-family: system-ui, -apple-system, sans-serif;
+            direction: ltr;
+        }
+        
+        .premium-counter:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(217, 70, 239, 0.2);
+        }
+
+        .counter-icon {
+            color: #64748b;
+            transition: color 0.3s;
+        }
+        
+        .premium-counter:hover .counter-icon {
+            color: #d946ef;
+        }
+
+        .counter-text {
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .counter-number {
+            color: #1e293b;
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
     </style>
 </head>
 <body class="w-full relative">
@@ -282,7 +332,6 @@
 
     <div id="countdown-section" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 bg-white/40 backdrop-blur-xl p-4">
         
-        <!-- الإطار السحري حول المحادثة -->
         <div class="magic-frame w-full max-w-sm">
             <div class="magic-frame-inner bg-white/95 backdrop-blur-md flex flex-col justify-end p-5">
                 
@@ -370,11 +419,33 @@
 
     </div>
 
+    <!-- العداد النصي الاحترافي - يظهر فقط في الشاشة الأولى -->
+    <div class="premium-counter" id="view-counter">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="counter-icon">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <span class="counter-text">Views</span>
+        <span class="counter-number" id="dynamic-counter">145</span>
+    </div>
+
     <script>
+        // نظام ذكي لزيادة العداد الوهمي بشكل واقعي
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentViews = localStorage.getItem('riham_views') || 145;
+            currentViews = parseInt(currentViews) + 1;
+            localStorage.setItem('riham_views', currentViews);
+            document.getElementById('dynamic-counter').innerText = currentViews;
+        });
+
+        // زر فتح البوابة وإخفاء العداد
         document.getElementById('open-invitation-btn').addEventListener('click', function() {
             document.getElementById('intro-section').classList.add('hidden');
             document.getElementById('tease-section').classList.remove('hidden');
             document.getElementById('tease-section').classList.add('flex', 'fade-in');
+            
+            // إخفاء العداد من باقي البرنامج
+            document.getElementById('view-counter').style.display = 'none';
         });
 
         function startFallingEffects() {
@@ -644,5 +715,6 @@
     </script>
 </body>
 </html>
+
 
 
