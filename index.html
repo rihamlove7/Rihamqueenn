@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>رسالة خاصة 💌</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Aref+Ruqaa:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            background: linear-gradient(-45deg, #fce7f3, #e0c3fc, #e3eeff, #fbcfe8);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            touch-action: manipulation;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #bg-effects, #magic-particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        #magic-particles-container {
+            z-index: 100;
+        }
+
+        .action-btn {
+            position: relative; 
+            z-index: 50;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            white-space: normal; 
+            word-wrap: break-word;
+            max-width: 85vw;
+            line-height: 1.5;
+        }
+
+        .character-floating {
+            position: fixed !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            z-index: 45;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            pointer-events: none; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 90vw;
+        }
+
+        .happy-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.85), rgba(250, 232, 255, 0.9)), url('https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1920&auto=format&fit=crop') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-attachment: fixed !important;
+            animation: none !important;
+        }
+
+        .magic-frame {
+            position: relative;
+            padding: 6px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            z-index: 20;
+            transition: transform 0.5s ease;
+        }
+        
+        .magic-frame::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, #d946ef, #8b5cf6, #ec4899);
+            animation: rotateFrame 4s linear infinite;
+            z-index: -1;
+        }
+
+        .magic-frame-inner {
+            background: white;
+            padding: 12px;
+            border-radius: 16px;
+            height: 100%;
+            position: relative;
+            z-index: 10;
+        }
+
+        .magic-frame-angled {
+            transform: rotate(-3deg);
+        }
+
+        .magic-frame-angled:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+
+        @keyframes rotateFrame {
+            100% { transform: rotate(360deg); }
+        }
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.1), inset 0 0 30px rgba(255,255,255,0.6);
+            border-radius: 35px;
+        }
+
+        .main-name {
+            background: linear-gradient(to right, #d946ef, #8b5cf6, #ec4899);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shinyText 4s ease infinite;
+            font-family: 'Aref Ruqaa', serif;
+        }
+
+        @keyframes shinyText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hidden { display: none !important; }
+        .fade-in { animation: fadeIn 0.8s ease-out forwards; }
+        @keyframes fadeIn { 
+            from { opacity: 0; transform: translateY(20px); } 
+            to { opacity: 1; transform: translateY(0); } 
+        }
+
+        .intro-overlay {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 100;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(0.5) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.9; }
+            100% { transform: translateY(-120vh) scale(1.5) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.8); opacity: 0.5; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .gif-pop {
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            min-height: 250px;
+            justify-content: flex-end;
+        }
+
+        .chat-bubble {
+            background: #fdf2f8;
+            color: #4a5568;
+            padding: 12px 18px;
+            border-radius: 20px;
+            border-bottom-right-radius: 4px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            align-self: flex-end;
+            opacity: 0;
+            transform: translateY(15px) scale(0.95);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-width: 90%;
+            word-wrap: break-word;
+        }
+
+        .chat-bubble.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .typing-indicator {
+            background: #fdf2f8;
+            padding: 12px 18px;
+            border-radius: 20px;
+            border-bottom-right-radius: 4px;
+            display: flex;
+            gap: 5px;
+            align-self: flex-end;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .typing-indicator.active {
+            opacity: 1;
+        }
+
+        .dot {
+            width: 7px;
+            height: 7px;
+            background: #d946ef;
+            border-radius: 50%;
+            animation: bounceDot 1.4s infinite ease-in-out both;
+        }
+
+        .dot:nth-child(1) { animation-delay: -0.32s; }
+        .dot:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes bounceDot {
+            0%, 80%, 100% { transform: scale(0); }
+            40% { transform: scale(1); }
+        }
+
+        /* التصميم الاحترافي لعداد الزوار */
+        .premium-counter {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            padding: 8px 20px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.8);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            font-family: system-ui, -apple-system, sans-serif;
+            direction: ltr;
+        }
+        
+        .premium-counter:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateX(-50%) translateY(-3px);
+            box-shadow: 0 8px 25px rgba(217, 70, 239, 0.2);
+        }
+
+        .counter-icon {
+            color: #64748b;
+            transition: color 0.3s;
+        }
+        
+        .premium-counter:hover .counter-icon {
+            color: #d946ef;
+        }
+
+        .counter-text {
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        .counter-number {
+            color: #1e293b;
+            font-weight: 800;
+            font-size: 1.05rem;
+        }
+
+    </style>
+</head>
+<body class="w-full relative">
+
+    <audio id="happy-song" loop>
+        <source src="https://i.top4top.io/m_3715lfl773.mp3" type="audio/mpeg">
+    </audio>
+
+    <div id="bg-effects"></div>
+
+    <div id="intro-section" class="fixed inset-0 intro-overlay flex flex-col items-center justify-center p-6 text-center">
+        <div class="bg-white/60 backdrop-blur-xl p-8 rounded-[2.5rem] shadow-2xl border border-white max-w-sm w-full relative overflow-hidden transform transition-all hover:scale-105 duration-500">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-pink-300 rounded-full blur-3xl opacity-50"></div>
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-300 rounded-full blur-3xl opacity-50"></div>
+            
+            <div class="relative z-10">
+                <div class="text-7xl mb-4 animate-bounce drop-shadow-md">💌</div>
+                <h1 class="text-3xl font-black text-gray-800 mb-3 font-serif">دعوة خاصة</h1>
+                <p class="text-lg text-gray-600 mb-8 font-bold leading-relaxed px-2">
+                    ورا هالشاشة، مخبيتلك إشي حلو بينور يومك.. جاهز تشوفه؟ 🙈✨
+                </p>
+                
+                <button id="open-invitation-btn" class="w-full bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-black text-xl py-4 rounded-3xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 border border-white/50">
+                    <span>أكيد جاهز!</span> 
+                    <span class="text-2xl">🗝️</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tease-section" class="w-full h-screen relative flex flex-col items-center justify-center mx-auto p-4 hidden">
+        
+        <div id="character-box" class="bg-white/80 backdrop-blur-md p-6 rounded-[2.5rem] shadow-2xl border border-white mb-6 w-[90%] max-w-sm relative flex flex-col items-center justify-center transition-all duration-300 box-border">
+            <img id="reaction-gif" src="https://i.pinimg.com/originals/58/99/f6/5899f6e93d8a463fb930a3714ceb7151.gif" class="w-48 h-48 md:w-64 md:h-64 mx-auto mb-4 drop-shadow-xl gif-pop transition-all duration-300 rounded-3xl" alt="Reaction">
+            
+            <h2 id="teasing-text" class="text-2xl md:text-3xl font-black text-fuchsia-600 drop-shadow-sm transition-all text-center leading-snug whitespace-normal break-words w-full">مستعجل تشوف الرسالة؟ 🙈</h2>
+        </div>
+        
+        <div id="btn-container" class="relative flex flex-col items-center justify-center z-50 w-full px-4">
+            <button id="yes-btn" class="action-btn bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-black py-4 px-8 rounded-[2rem] border-2 border-white/50 text-xl transition-all text-center w-auto inline-block">
+                أكيد بدي أشوفها! 😍
+            </button>
+        </div>
+
+    </div>
+
+    <div id="countdown-section" class="hidden fixed inset-0 z-40 flex flex-col items-center justify-center transition-opacity duration-500 bg-white/40 backdrop-blur-xl p-4">
+        
+        <div class="magic-frame w-full max-w-sm">
+            <div class="magic-frame-inner bg-white/95 backdrop-blur-md flex flex-col justify-end p-5">
+                
+                <div class="w-full text-center border-b border-gray-100 pb-3 mb-4">
+                    <span class="text-fuchsia-600 font-black text-lg">جاري التجهيز ✨</span>
+                </div>
+
+                <div class="chat-container" id="chat-container">
+                    <div class="typing-indicator" id="typing-indicator">
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button id="final-surprise-btn" class="hidden w-full max-w-xs mt-8 bg-gradient-to-r from-fuchsia-500 to-pink-500 text-white font-black py-4 rounded-3xl shadow-[0_10px_30px_rgba(217,70,239,0.4)] text-2xl hover:scale-105 transition-transform border border-white">
+            افتح الرسالة 🎁
+        </button>
+
+    </div>
+
+    <div id="surprise-section" class="hidden w-full min-h-screen z-20 flex-col items-center justify-center p-4 py-12 mx-auto relative overflow-hidden">
+        
+        <div id="magic-particles-container"></div>
+
+        <div class="glass-panel w-full max-w-md p-6 md:p-8 flex flex-col items-center relative z-20 my-auto mt-10">
+            
+            <img src="https://media.tenor.com/Z4XzK27gOAEAAAAi/tkthao219-peach-and-goma.gif" class="absolute -top-16 -left-10 w-36 h-36 z-30 drop-shadow-xl" alt="Bunny">
+            <img src="https://media.tenor.com/W2dmbU3vKx8AAAAi/tkthao219-peach-and-goma.gif" class="absolute bottom-10 -right-10 w-36 h-36 z-30 drop-shadow-xl" alt="Cat">
+
+            <div class="absolute top-4 right-4 text-4xl opacity-80 animate-spin-slow drop-shadow-md">✨</div>
+            <div class="absolute bottom-4 left-4 text-4xl opacity-80 animate-bounce drop-shadow-md">🌸</div>
+
+            <div class="magic-frame magic-frame-angled w-60 md:w-72 mx-auto mb-10 mt-6">
+                <div class="magic-frame-inner">
+                    <img src="https://b.top4top.io/p_3715rmj7i3.jpeg" 
+                         alt="Smile" 
+                         class="w-full h-60 md:h-72 object-cover rounded-lg shadow-inner">
+                    
+                    <div class="text-center mt-4 font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-600 font-serif text-2xl">
+                        ابتسم، فالحياة تليق بك ✨
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative z-20 flex flex-col items-center justify-center text-center w-full">
+                <h1 class="main-name text-4xl md:text-5xl font-black mb-6 leading-tight">يا صاحب ألطف ابتسامة..</h1>
+                
+                <div class="text-lg md:text-xl font-bold px-2 pb-6 text-gray-700 leading-loose">
+                    <p class="mb-4">
+                        بعرف إني جننتك وعذبتك شوي لتفتح الرسالة.. 😂 بس حبيت أرسم هالضحكة الحلوة على وجهك.
+                    </p>
+                    <p class="mb-4">
+                        حبيت أعملك هالمفاجأة البسيطة بس عشان أذكرك إنك شخص مميز، وإن ابتسامتك لحالها بتسوى الدنيا.
+                    </p>
+                    <p class="mb-4">
+                        أتمنى تضل أيامك كلها ضحك وسعادة، وتبعد عنك كل هم وضيقة، وتوصل لكل شي بتتمناه.
+                    </p>
+                    <p class="mb-6 text-fuchsia-600 font-black text-2xl drop-shadow-sm">
+                        دائماً تذكر إنك بتستاهل كل شي حلو بهالدنيا.. 🌟
+                    </p>
+                </div>
+
+                <div class="w-full mt-2 pt-10 border-t-[3px] border-dashed border-pink-200 flex flex-col items-center justify-center relative">
+                    <div class="absolute -top-4 bg-white/90 backdrop-blur-md px-6 py-1.5 rounded-full text-sm font-black text-fuchsia-600 border border-pink-200 shadow-sm">صُنع بكل حُب من</div>
+                    
+                    <h2 class="text-4xl font-black text-purple-800 font-serif mb-6 drop-shadow-md mt-4">ريهام الكيلاني ✨</h2>
+                    
+                    <div class="magic-frame w-48 mx-auto mt-2 mb-4">
+                        <div class="magic-frame-inner flex flex-col items-center p-2 relative">
+                            <img src="https://l.top4top.io/p_3715lub5c0.png" alt="Instagram QR" class="w-40 h-40 object-cover rounded-xl border border-gray-100 shadow-sm relative z-10">
+                            
+                            <p class="text-sm text-center text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-500 font-black tracking-[0.2em] mt-3 mb-1">
+                                @INSTAGRAM
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- العداد النصي الاحترافي - يظهر فقط في الشاشة الأولى -->
+    <div class="premium-counter" id="view-counter">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="counter-icon">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+            <circle cx="12" cy="12" r="3"/>
+        </svg>
+        <span class="counter-text">Views</span>
+        <span class="counter-number" id="dynamic-counter">145</span>
+    </div>
+
+    <script>
+        // نظام ذكي لزيادة العداد الوهمي بشكل واقعي
+        document.addEventListener('DOMContentLoaded', () => {
+            let currentViews = localStorage.getItem('riham_views') || 145;
+            currentViews = parseInt(currentViews) + 1;
+            localStorage.setItem('riham_views', currentViews);
+            document.getElementById('dynamic-counter').innerText = currentViews;
+        });
+
+        // زر فتح البوابة وإخفاء العداد
+        document.getElementById('open-invitation-btn').addEventListener('click', function() {
+            document.getElementById('intro-section').classList.add('hidden');
+            document.getElementById('tease-section').classList.remove('hidden');
+            document.getElementById('tease-section').classList.add('flex', 'fade-in');
+            
+            // إخفاء العداد من باقي البرنامج
+            document.getElementById('view-counter').style.display = 'none';
+        });
+
+        function startFallingEffects() {
+            const bg = document.getElementById('bg-effects');
+            setInterval(() => {
+                const el = document.createElement('div');
+                const emojis = ['✨', '🌸', '💖', '🌟', '🎀', '🎈', '🥰', '🪄'];
+                el.innerHTML = emojis[Math.floor(Math.random() * emojis.length)];
+                el.style.position = 'absolute';
+                el.style.bottom = '-50px';
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                el.style.opacity = Math.random() * 0.6 + 0.4;
+                
+                const duration = Math.random() * 5 + 4; 
+                el.style.animation = `floatUp ${duration}s linear forwards`;
+                
+                bg.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, duration * 1000);
+            }, 300); 
+        }
+        
+        startFallingEffects();
+
+        const yesBtn = document.getElementById('yes-btn');
+        const charBox = document.getElementById('character-box');
+        const teaseSection = document.getElementById('tease-section');
+        const surpriseSection = document.getElementById('surprise-section');
+        const happySong = document.getElementById('happy-song');
+        const reactionGif = document.getElementById('reaction-gif');
+        const teasingTextEl = document.getElementById('teasing-text');
+        
+        const interactionSteps = [
+            { screen: "مستعجل تشوف الرسالة؟ 🙈", btn: "أكيد بدي أشوفها! 😍", gif: "https://i.pinimg.com/originals/6a/34/c9/6a34c9d78c8281e09ea8de12a14b3750.gif" },
+            { screen: "تؤ تؤ، مو بالسهولة هاي 😜", btn: "رح أفتحها يعني رح أفتحها! 🏃‍♂️", gif: "https://i.pinimg.com/originals/a0/4b/23/a04b23dd5219513ca220e87e74be481f.gif" },
+            { screen: "بدك تتعب شوي لتعرف شو مخبيتلك 💅", btn: "موافق، فرجيني! 😎", gif: "https://i.pinimg.com/originals/8a/a0/45/8aa045880b88316ed53ec7ef6f3c8bea.gif" },
+            { screen: "الرسالة مسكرة بقفل سحري 🪄", btn: "بكسر القفل عشان أشوف! 🕵️‍♂️", gif: "https://i.pinimg.com/originals/12/4a/28/124a28d79e785967c77200d8b266a649.gif" },
+            { screen: "على مهلك شوي 😂", btn: "عم بتهرب مني؟ 😤", gif: "https://media.tenor.com/1sllEEYLrrAAAAAM/happy-janmashtami.gif" },
+            { screen: "شطورة أنا بالهرب صح؟ 🤭", btn: "وراك وراك! 🌍", gif: "https://i.pinimg.com/originals/40/97/fd/4097fdebfec65230719cac5bd481ab8b.gif" },
+            { screen: "لسه بدك تحاول؟ 🥺", btn: "نفسي طويل ما بتعب! 💪", gif: "https://i.pinimg.com/originals/ee/f6/a4/eef6a46e97fc7428ad471c2e02bdb2da.gif" },
+            { screen: "والله إنك عنيد وبدك تفتحها 😤", btn: "لأبعد حد! 💯", gif: "https://i.pinimg.com/originals/92/e1/6a/92e16a232dd6d27fd19c34362f71fce4.gif" },
+            { screen: "عم بتسلى بأعصابك شوي 🌸", btn: "مقبولة منك 🎯", gif: "https://i.pinimg.com/originals/96/3b/40/963b403dc8742ae8e76b87f5d874515b.gif" },
+            { screen: "عشان تعرف إني بتعبك لتوصل لرسالتي 💖", btn: "تعبك راحة! 💥", gif: "https://i.pinimg.com/originals/4f/22/87/4f228760e41f20cb2c55495ae492b37b.gif" },
+            { screen: "زعلت؟ بمزح معك 🥺", btn: "ما بزعل أبداً 🥰", gif: "https://i.pinimg.com/originals/a1/ec/1b/a1ec1b7328db508e0abd3edc6de66fa9.gif" },
+            { screen: "ورجيني قديش بدك تشوف المفاجأة 👀", btn: "أكثر ما بتتخيل! 🦸‍♂️", gif: "https://i.pinimg.com/originals/cc/f2/27/ccf227f57d93020c53731a52aa0f1939.gif" },
+            { screen: "دوختني وراك! 😵‍💫", btn: "وأنا دخت كمان! 😂", gif: "https://i.pinimg.com/originals/31/8b/58/318b58f39975a49526ab4e7678b4a9d7.gif" },
+            { screen: "ما بتستسلم أبداً صح؟ 🥰", btn: "أكييييد لأ! 😡✨", gif: "https://i.pinimg.com/originals/af/1b/e4/af1be4557381e7b869ef2cdfc8c5cdb8.gif" },
+            { screen: "هانت، قربت تفتح الرسالة ✨", btn: "يلا هات أشوف! 🕵️‍♂️", gif: "https://i.pinimg.com/originals/2e/6d/6d/2e6d6db2fd789c750a260aee7c9a6791.gif" },
+            { screen: "يلا قربت قربت 👏", btn: "وقف مكانك! ✨", gif: "https://i.pinimg.com/originals/d3/57/28/d35728f053cf8b5ea303b8c8653b21da.gif" },
+            { screen: "بوعدك هاي قبل الأخيرة، صدقني 🥺", btn: "بنشوف! 😒", gif: "https://i.pinimg.com/originals/e0/5c/65/e05c6573b7c4a07fe0f3a95cd98bf611.gif" },
+            { screen: "يعجبني هالإصرار 👏", btn: "خلصني عاد! 🫂", gif: "https://i.pinimg.com/originals/bc/0a/ff/bc0affc97f7ea9649ad19cf29f913901.gif" },
+            { screen: "يلا آخر ضغطة وبتفتح! 🎁", btn: "يلا هانت! 🎁", gif: "https://i.pinimg.com/originals/54/b7/d6/54b7d6dcdfce894a3ccad4c144f1a9a2.gif" },
+            { screen: "خلص رح أستسلم وأخليك تشوفها 🥰", btn: "أخيراً! مسكتك! 🏆", gif: "https://i.pinimg.com/originals/67/0e/7c/670e7c280f74eb1052acabdd9d052b52.gif" }
+        ];
+
+        let yesMoveCount = 0;
+        const maxYesMoves = 20; 
+
+        function moveElementsWithoutOverlap() {
+            if (yesBtn.style.position !== 'fixed') {
+                yesBtn.style.position = 'fixed';
+                yesBtn.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }
+            if (charBox.style.position !== 'fixed') {
+                charBox.style.position = 'fixed';
+                charBox.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            }
+
+            const padding = 20; 
+
+            const btnW = yesBtn.offsetWidth || 180;
+            const btnH = yesBtn.offsetHeight || 60;
+            const charW = charBox.offsetWidth || 250;
+            const charH = charBox.offsetHeight || 250;
+
+            const maxX1 = Math.max(padding, window.innerWidth - btnW - padding);
+            const maxY1 = Math.max(padding, window.innerHeight - btnH - padding);
+            const maxX2 = Math.max(padding, window.innerWidth - charW - padding);
+            const maxY2 = Math.max(padding, window.innerHeight - charH - padding);
+
+            let bX, bY, cX, cY, overlap;
+            let attempts = 0;
+
+            do {
+                bX = Math.random() * (maxX1 - padding) + padding;
+                bY = Math.random() * (maxY1 - padding) + padding;
+                cX = Math.random() * (maxX2 - padding) + padding;
+                cY = Math.random() * (maxY2 - padding) + padding;
+
+                const r1 = { left: bX - 10, right: bX + btnW + 10, top: bY - 10, bottom: bY + btnH + 10 };
+                const r2 = { left: cX, right: cX + charW, top: cY, bottom: cY + charH };
+
+                overlap = !(r1.right < r2.left || r1.left > r2.right || r1.bottom < r2.top || r1.top > r2.bottom);
+                attempts++;
+            } while (overlap && attempts < 100);
+
+            yesBtn.style.left = bX + 'px';
+            yesBtn.style.top = bY + 'px';
+            yesBtn.style.transform = 'none';
+
+            charBox.style.left = cX + 'px';
+            charBox.style.top = cY + 'px';
+            charBox.style.transform = 'none';
+        }
+
+        function moveYesButton(e) {
+            if (yesMoveCount >= maxYesMoves) {
+                yesBtn.removeEventListener('touchstart', moveYesButton);
+                yesBtn.removeEventListener('mouseover', moveYesButton);
+
+                yesBtn.style.position = 'relative'; 
+                yesBtn.style.left = 'auto';
+                yesBtn.style.top = 'auto';
+                
+                charBox.style.position = 'relative'; 
+                charBox.style.left = 'auto';
+                charBox.style.top = 'auto';
+                charBox.classList.remove('character-floating', 'w-auto');
+                charBox.classList.add('bg-white/80', 'backdrop-blur-md', 'p-6', 'rounded-[2.5rem]', 'shadow-2xl', 'border', 'border-white', 'w-[90%]', 'max-w-sm');
+                
+                yesBtn.innerHTML = "أخيراً! يلا فوت 🎉";
+                yesBtn.classList.remove('bg-gradient-to-r', 'from-purple-500', 'to-pink-500');
+                yesBtn.classList.add('bg-gradient-to-r', 'from-fuchsia-500', 'to-pink-400', 'animate-pulse', 'scale-110', 'shadow-[0_0_30px_rgba(236,72,153,0.6)]');
+                yesBtn.onclick = startCountdownPhase; 
+                
+                teasingTextEl.innerText = "جاهز لتشوفها؟ 🥰";
+                teasingTextEl.className = "text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-purple-500 drop-shadow-sm transition-all text-center leading-snug mt-4";
+                
+                reactionGif.className = "w-48 h-48 md:w-64 md:h-64 mx-auto mb-2 drop-shadow-2xl gif-pop transition-all duration-300 rounded-3xl";
+                triggerGifAnimation();
+                return;
+            }
+
+            e.preventDefault();
+            
+            if (yesMoveCount === 0) {
+                charBox.classList.remove('bg-white/80', 'backdrop-blur-md', 'p-6', 'rounded-[2.5rem]', 'shadow-2xl', 'border', 'border-white', 'w-[90%]', 'max-w-sm');
+                charBox.classList.add('character-floating', 'w-auto');
+                
+                reactionGif.className = "w-36 h-36 md:w-48 md:h-48 mx-auto mb-2 drop-shadow-2xl gif-pop transition-all duration-300 rounded-2xl";
+                teasingTextEl.className = "text-lg md:text-xl font-black text-fuchsia-600 drop-shadow-md text-center leading-snug bg-white/95 px-5 py-2.5 rounded-full shadow-2xl border border-pink-200 mt-2";
+            }
+
+            moveElementsWithoutOverlap();
+            
+            const currentStep = interactionSteps[yesMoveCount];
+            teasingTextEl.innerText = currentStep.screen; 
+            yesBtn.innerHTML = currentStep.btn;
+
+            if(currentStep.gif) {
+                reactionGif.src = currentStep.gif;
+            }
+            triggerGifAnimation();
+            
+            yesMoveCount++;
+        }
+        
+        function triggerGifAnimation() {
+            reactionGif.classList.remove('gif-pop');
+            void reactionGif.offsetWidth; 
+            reactionGif.classList.add('gif-pop');
+        }
+
+        yesBtn.addEventListener('touchstart', moveYesButton);
+        yesBtn.addEventListener('mouseover', moveYesButton);
+
+        function startCountdownPhase() {
+            document.getElementById('tease-section').classList.add('hidden');
+            document.getElementById('bg-effects').style.display = 'none';
+            
+            const cdSection = document.getElementById('countdown-section');
+            cdSection.classList.remove('hidden');
+            cdSection.classList.add('flex', 'fade-in');
+
+            const chatContainer = document.getElementById('chat-container');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const finalBtn = document.getElementById('final-surprise-btn');
+
+            const messages = [
+                "ثواني بس عم برتبلك المفاجأة 🥺✍️",
+                "برشلك شوية ورد وسحر هون 🌸✨",
+                "يلا خذ نفس وغمض عيونك 🙈",
+                "جاهز؟؟ خلصت! 🎉"
+            ];
+
+            let msgIndex = 0;
+
+            function showNextMessage() {
+                typingIndicator.classList.add('active');
+                
+                setTimeout(() => {
+                    typingIndicator.classList.remove('active');
+                    
+                    const bubble = document.createElement('div');
+                    bubble.className = 'chat-bubble';
+                    bubble.innerText = messages[msgIndex];
+                    
+                    chatContainer.insertBefore(bubble, typingIndicator);
+                    
+                    setTimeout(() => {
+                        bubble.classList.add('show');
+                    }, 50);
+
+                    msgIndex++;
+
+                    if (msgIndex < messages.length) {
+                        setTimeout(showNextMessage, 1500); 
+                    } else {
+                        setTimeout(() => {
+                            typingIndicator.style.display = 'none';
+                            finalBtn.classList.remove('hidden');
+                            finalBtn.classList.add('fade-in');
+                        }, 800);
+                    }
+                }, 1800); 
+            }
+
+            showNextMessage();
+
+            finalBtn.onclick = showFinalSurpriseSection;
+        }
+
+        function showFinalSurpriseSection() {
+            document.getElementById('happy-song').play().catch(e => {});
+
+            const cdSection = document.getElementById('countdown-section');
+            cdSection.classList.add('hidden');
+            cdSection.classList.remove('flex');
+            
+            document.body.classList.add('happy-bg');
+            document.body.style.overflowY = 'auto'; 
+            
+            document.getElementById('surprise-section').classList.remove('hidden');
+            document.getElementById('surprise-section').classList.add('flex', 'fade-in');
+            
+            createMagicParticles();
+            
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function createMagicParticles() {
+            const symbols = ['✨', '🌸', '💖', '🌟', '🎀', '🎈', '🥰', '🪄'];
+            const container = document.getElementById('magic-particles-container');
+            
+            setInterval(() => {
+                const particle = document.createElement('div');
+                particle.className = 'particle text-2xl md:text-5xl';
+                particle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                particle.style.position = 'absolute';
+                particle.style.bottom = '-50px';
+                particle.style.left = Math.random() * 100 + 'vw';
+                
+                const duration = Math.random() * 4 + 4; 
+                particle.style.animation = `floatUp ${duration}s linear forwards`;
+                
+                container.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, duration * 1000);
+            }, 100); 
+        }
+    </script>
+</body>
+</html>
+
+
+
